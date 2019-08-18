@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { getMoviesList } from '../../actions/MovieListAction';
 import Input from '../../components/formfields/Input';
 
-class SearchBar extends Component {
+class SearchBar extends PureComponent {
 	startSearch = (searchText) => {
-		console.log(searchText);
+		this.props.getMoviesList(searchText);
+		const { history, location: { pathname } } = this.props;
+		if (pathname !== '/dashboard') {
+			history.push('/dashboard');
+		}
 	};
+
 	render() {
 		return (
 			<div className="searchBar">
@@ -20,4 +27,5 @@ class SearchBar extends Component {
 		);
 	}
 }
-export default SearchBar;
+const mapStateToProps = (state) => ({});
+export default connect(mapStateToProps, { getMoviesList })(SearchBar);

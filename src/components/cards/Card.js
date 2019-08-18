@@ -25,8 +25,8 @@ function Card(props) {
 	return (
 		<div
 			className="cardContainer"
-			onClick={(e) => {
-				handler(e, movie);
+			onClick={() => {
+				handler(movie);
 			}}
 		>
 			<div className="cardMedia">

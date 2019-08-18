@@ -1,29 +1,15 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import Card from '../../components/cards/Card';
 
 class MovileList extends PureComponent {
-	constructor(props) {
-		super(props);
-		this.state = {
-			movies: [],
-			totalResults: 0
-		};
-	}
-	componentDidMount() {
-		fetch('http://www.omdbapi.com/?s=time&page=1&apikey=49e882e5')
-			.then((response) => response.json())
-			.then((data) => {
-				return this.setState({ movies: data.Search, totalResults: data.totalResults });
-			});
-	}
-
-	onMovieSelect = (e, movie) => {
+	onMovieSelect = (movie) => {
 		const { history, match } = this.props;
 		history.push(`${match.path}/detail`, { movie });
 	};
 
 	render() {
-		const { movies } = this.state;
+		const { movies } = this.props;
 		return (
 			<div className="movieList">
 				{movies.map((movie) => {
@@ -34,4 +20,9 @@ class MovileList extends PureComponent {
 	}
 }
 
-export default MovileList;
+const mapStateToProps = (state) => ({
+	movies: state.movies.items,
+	totalResults: state.movies.totalResults
+});
+
+export default connect(mapStateToProps, {})(MovileList);

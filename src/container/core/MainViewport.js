@@ -11,7 +11,7 @@ class MainViewport extends Component {
 		const { match } = this.props;
 		return (
 			<div className="mainViewport">
-				<SearchBar />
+				<SearchBar {...this.props} />
 				<Switch>
 					<Route exact path={`${match.path}`} component={MovileList} />
 					<Route exact path={`${match.path}/add`} component={AddMovie} />
@@ -21,7 +21,5 @@ class MainViewport extends Component {
 		);
 	}
 }
-
-MainViewport.propTypes = {};
 
 export default MainViewport;
