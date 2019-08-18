@@ -15,21 +15,32 @@ const style = {
 class Login extends PureComponent {
 	onClickButton = async (e) => {
 		e.preventDefault();
+		const apiKey = e.target['username'].value;
+		if (apiKey === '') {
+			alert('user name should not be empty');
+			return;
+		}
 
 		try {
-			const response = await fetch(`http://www.omdbapi.com/?apikey=49e882e5&s=batman`);
+			const response = await fetch(`${config.rootUrl}apikey=${apiKey}&s=batman`);
 			const data = await response.json();
 			if (data.Response === 'False') {
 				sessionStorage.setItem('isLogin', false);
-				console.log('Error: Please check API key.');
+				sessionStorage.setItem('apiKey', null);
+				alert('Error: Please check API key.');
+
+				console.error('Error: Please check API key.');
 			} else {
-				sessionStorage.setItem('apiKey', '49e882e5');
-				config.apiKey = '49e882e5';
+				// 49e882e5
+				sessionStorage.setItem('apiKey', apiKey);
+				config.apiKey = apiKey;
 				sessionStorage.setItem('isLogin', true);
 				console.log('API Key validated.');
 			}
 		} catch (e) {
 			sessionStorage.setItem('isLogin', false);
+			sessionStorage.setItem('apiKey', null);
+			alert('Error: Please check API key.');
 			console.error('Error: Please check API key.');
 		}
 		const { history } = this.props;
@@ -42,6 +53,7 @@ class Login extends PureComponent {
 				<form onSubmit={this.onClickButton}>
 					<Input
 						type="text"
+						name="username"
 						actionBtn={{
 							icon: 'vpn_key',
 							show: true

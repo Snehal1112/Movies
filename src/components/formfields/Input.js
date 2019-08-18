@@ -44,6 +44,7 @@ const Input = (props) => {
 
 	const {
 		type = 'text',
+		name = '',
 		size = '35',
 		error = { type: NONE, message: '' },
 		placeHolder = 'User name',
@@ -77,6 +78,7 @@ const Input = (props) => {
 			*/}
 			<input
 				type={type}
+				name={name}
 				style={style.inputField}
 				placeholder={placeHolder}
 				size={size}
