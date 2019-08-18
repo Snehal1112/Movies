@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Input from '../../components/formfields/Input';
 
 class SearchBar extends Component {
+	startSearch = (searchText) => {
+		console.log(searchText);
+	};
 	render() {
 		return (
 			<div className="searchBar">
@@ -9,7 +12,8 @@ class SearchBar extends Component {
 					placeHolder="Search"
 					actionBtn={{
 						show: true,
-						icon: 'search'
+						icon: 'search',
+						handler: this.startSearch
 					}}
 				/>
 			</div>

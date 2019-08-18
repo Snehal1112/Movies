@@ -13,7 +13,6 @@ class MovileList extends PureComponent {
 		fetch('http://www.omdbapi.com/?s=time&page=1&apikey=49e882e5')
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				return this.setState({ movies: data.Search, totalResults: data.totalResults });
 			});
 	}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ERROR, NONE, WARNING } from './ErrorTypes';
 import './Input.scss';
 const style = {
@@ -40,14 +40,17 @@ const style = {
 };
 
 const Input = (props) => {
+	const [ text, setText ] = useState('');
+
 	const {
 		type = 'text',
 		size = '35',
 		error = { type: NONE, message: '' },
 		placeHolder = 'User name',
-		actionBtn = { icon: '', show: false, handler: () => {} }
+		actionBtn
 	} = props;
 
+	const { icon = '', show = false, handler = () => {} } = actionBtn;
 	const errStyle = (type) => {
 		switch (type) {
 			case ERROR:
@@ -58,12 +61,27 @@ const Input = (props) => {
 				return '';
 		}
 	};
+
+	const onActionBtnClick = () => {
+		handler(text);
+	};
+
+	const onInputFieldChange = (event) => {
+		setText(event.target.value);
+	};
+
 	return (
 		<div style={style.inputContainer}>
 			{/**
 				Input filed 
 			*/}
-			<input type={type} style={style.inputField} placeholder={placeHolder} size={size} />
+			<input
+				type={type}
+				style={style.inputField}
+				placeholder={placeHolder}
+				size={size}
+				onChange={onInputFieldChange}
+			/>
 
 			{/**
 				Error message filed 
@@ -77,9 +95,9 @@ const Input = (props) => {
 			{/**
 				Action button 
 			*/}
-			{actionBtn.show && (
-				<button className="actionButtons" style={style.actionButton} onClick={actionBtn.handler}>
-					<i className="material-icons">{actionBtn.icon}</i>
+			{show && (
+				<button className="actionButtons" style={style.actionButton} onClick={onActionBtnClick}>
+					<i className="material-icons">{icon}</i>
 				</button>
 			)}
 		</div>

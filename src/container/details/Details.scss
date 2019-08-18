@@ -1,0 +1,17 @@
+.detailCard {
+	.backBtn {
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		background-color: #37474f;
+		color: #ffffff;
+		cursor: pointer;
+		outline: none;
+	}
+
+	.backBtn:hover {
+		background-color: #cfd8dc;
+
+		color: #37474f;
+	}
+}
