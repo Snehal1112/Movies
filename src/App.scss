@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Rasa&display=swap');
+
+html {
+	body {
+		font-family: 'Rasa', serif;
+		height: 100vh;
+		margin: 0px;
+		padding: 0px;
+		background-color: #eceff1;
+		#root {
+			height: inherit;
+		}
+	}
+}

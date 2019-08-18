@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import './App.scss';
+import MainViewport from './container/core/MainViewport';
+import Login from './container/loginform/Login';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
+const App = () => {
+	return (
+		<BrowserRouter>
+			<Switch>
+				<Route
+					exact
+					path="/"
+					render={(routeProps) => {
+						let isLogin = routeProps.location.state && routeProps.location.state.log === true;
+						return isLogin === true ? <Redirect to="/dashboard" /> : <Login {...routeProps} />;
+					}}
+				/>
+				<Route
+					path="/dashboard"
+					component={MainViewport}
+					// children={({ match, ...rest }) => {
+					// 	return <Route exact path={`${match.path}`} component={MovileList} />;
+					// }}
+				/>
+				<Route component={Login} />
+			</Switch>
+		</BrowserRouter>
+	);
+};
 export default App;

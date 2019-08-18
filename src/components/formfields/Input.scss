@@ -1,0 +1,19 @@
+input {
+	font-size: 14px;
+	&:focus {
+		outline: 0px;
+	}
+}
+
+.actionButtons {
+	height: 100%;
+	background-color: #90a4ae;
+	border: none;
+	&:focus {
+		outline: none;
+	}
+}
+.actionButtons:hover {
+	background-color: #cfd8dc !important;
+	color: #263238 !important;
+}
