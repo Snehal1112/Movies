@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { getMoviesList } from '../../actions/MovieListAction';
+import { getMoviesList } from '../../actions/MovieAction';
 import Input from '../../components/formfields/Input';
 
 class SearchBar extends PureComponent {

@@ -26,6 +26,7 @@ const Details = (props) => {
 	const onClickBackBtn = () => {
 		history.push('/dashboard');
 	};
+
 	return (
 		<div className="detailCard">
 			{/* TODO: Create common button in components so we can reuse this. */}
