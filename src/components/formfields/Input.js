@@ -45,6 +45,8 @@ const Input = (props) => {
 	const {
 		type = 'text',
 		name = '',
+		value = text,
+		readOnly = false,
 		size = '35',
 		error = { type: NONE, message: '' },
 		placeHolder = 'User name',
@@ -82,8 +84,10 @@ const Input = (props) => {
 				style={style.inputField}
 				placeholder={placeHolder}
 				size={size}
+				value={value}
 				onChange={onInputFieldChange}
-			/>
+				readOnly={readOnly}
+		/>
 
 			{/**
 				Error message filed 

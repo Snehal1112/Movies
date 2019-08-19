@@ -1,0 +1,30 @@
+.dropDownContainer{
+  position: relative;
+
+ .dropDownItemContainer{
+   position: absolute;
+   margin-top: 5px;
+   border-radius: 5px;
+   width: 100%;
+   z-index:10000;
+
+   :first-child{
+     border-radius: 5px 5px 0px 0px;
+   }
+
+   :last-child{
+     border-radius: 0px 0px 5px 5px ;
+   }
+
+   .dropDownItem{
+     padding: 10px;
+     background-color: #3f3f3f;
+     color: #d8d8d7;
+   }
+
+   :hover{
+    background-color: #d8d8d7;
+     color: black;
+   }
+ }
+}

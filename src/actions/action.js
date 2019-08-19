@@ -1,3 +1,2 @@
-export const MVOIE_LIST = 'MVOIE_LIST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FALIOR = 'LOGIN_FALIOR';
+export const MOVIE_LIST = 'MOVIE_LIST';
+export const MOVIE_SORT = 'MOVIE_SORT';
