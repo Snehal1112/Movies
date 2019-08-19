@@ -1,9 +1,11 @@
-import { LOGIN_FALIOR, LOGIN_SUCCESS, MVOIE_LIST } from '../actions/action';
+import { MVOIE_LIST } from '../actions/action';
 
 const initState = {
 	items: [],
 	totalResults: 0,
-	loginStatus: false
+	loginStatus: false,
+	searchText:'',
+	currentPage:0,
 };
 
 export default (state = initState, { type, payload }) => {
@@ -11,15 +13,10 @@ export default (state = initState, { type, payload }) => {
 		case MVOIE_LIST:
 			return {
 				...state,
-				items: payload.Search,
-				totalResults: payload.totalResults
-			};
-		case LOGIN_FALIOR:
-		case LOGIN_SUCCESS:
-			console.log(payload);
-			return {
-				...state,
-				loginStatus: payload
+				items: payload.newSearch ? payload.Search : [...state.items, ...payload.Search],
+				totalResults: payload.totalResults,
+				searchText: payload.searchText,
+				currentPage:payload.currentPage
 			};
 		default:
 			return state;
