@@ -1,9 +1,8 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import Card from '../../components/cards/Card';
-import {getNextPage} from '../../actions/MovieAction';
-import DropDown from '../../components/formfields/DropDown';
-import DropDownItem from '../../components/formfields/DropDownItem';
+import { getNextPage, sortBy } from '../../actions/MovieAction';
+import DropDown, {DropDownItem} from '../../components/formfields/DropDown';
 
 class MoviesList extends PureComponent {
 	constructor(props) {
@@ -42,19 +41,27 @@ class MoviesList extends PureComponent {
 		}
 	};
 
+	onSelectionChange = (item) => {
+		const {id} = item;
+		if(id === 'default') {
+			return;
+		}
+		const {sortBy, movies} = this.props;
+		sortBy(id, movies);
+	};
 
 	render() {
 		const {movies} = this.props;
 		return (
 			<div className="movieListContainer">
-				<div className={"actionBar"} >
-					<button style={{height:"100%"}}>call</button>
-				</div>
-				<DropDown placeHolder="Select item" handler={(e)=>{console.log(e.target)}}>
-					<DropDownItem name={"snehal1"}/>
-					<DropDownItem name={"snehal2"}/>
-					<DropDownItem name={"snehal3"}/>
-				</DropDown>
+				{movies.length > 0 && (
+					<DropDown size = {20} placeHolder={"Select sort By"} onSelect={this.onSelectionChange}>
+						<DropDownItem id={'default'} name={'Select sort By'}/>
+						<DropDownItem id={'Year'} name={'Year'}/>
+						<DropDownItem id={'imdbRating'} name={"IMDB rating"}/>
+					</DropDown>
+				)}
+
 				{movies.map((movie, index) => {
 					return <Card key={index} movie={movie} handler={this.onMovieSelect}/>;
 				})}
@@ -70,4 +77,4 @@ const mapStateToProps = (state) => ({
 	currentPage: state.movies.currentPage
 });
 
-export default connect(mapStateToProps, {getNextPage})(MoviesList);
+export default connect(mapStateToProps, {getNextPage, sortBy})(MoviesList);
