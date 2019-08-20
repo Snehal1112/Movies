@@ -8,6 +8,23 @@
 			width: 350px;
 		}
 	}
+	.newBtn {
+		position: fixed;
+		right: 50px;
+		bottom: 50px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		outline: 0px;
+		border: none;
+		background-color: #37474f;
+		color: #ffffff;
+		cursor: pointer;
+	}
+	.newBtn:hover {
+		background-color: #cfd8dc;
+		color: #37474f;
+	}
 
 	.movieListContainer {
 		display: flex;

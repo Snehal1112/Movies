@@ -6,12 +6,12 @@
 		background-color: #37474f;
 		color: #ffffff;
 		cursor: pointer;
-		outline: none;
+		outline: 0px;
+		border: none;
 	}
 
 	.backBtn:hover {
 		background-color: #cfd8dc;
-
 		color: #37474f;
 	}
 }

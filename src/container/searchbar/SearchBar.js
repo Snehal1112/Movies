@@ -5,6 +5,10 @@ import Input from '../../components/formfields/Input';
 
 class SearchBar extends PureComponent {
 	startSearch = (searchText) => {
+		if (searchText === '') {
+			alert("Search text should not be empty");
+			return;
+		}
 		this.props.getMoviesList(searchText);
 		const { history, location: { pathname } } = this.props;
 		if (pathname !== '/dashboard') {

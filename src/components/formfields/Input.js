@@ -6,6 +6,7 @@ const style = {
 		position: 'relative'
 	},
 	inputField: {
+		margin:5,
 		padding: 10,
 		borderRadius: 5,
 		border: '2px solid #CFD8DC'
@@ -24,6 +25,7 @@ const style = {
 	},
 	actionButton: {
 		position: 'absolute',
+		margin: 5,
 		right: 0,
 		top: 0,
 		color: '#fff',
@@ -50,7 +52,10 @@ const Input = (props) => {
 		size = '35',
 		error = { type: NONE, message: '' },
 		placeHolder = 'User name',
-		actionBtn
+		actionBtn = {},
+		onFocus = ()=>{},
+		onBlur = ()=>{},
+		onClick = ()=>{},
 	} = props;
 
 	const { icon = '', show = false, handler = () => {} } = actionBtn;
@@ -85,6 +90,9 @@ const Input = (props) => {
 				placeholder={placeHolder}
 				size={size}
 				value={value}
+				onClick={onClick}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				onChange={onInputFieldChange}
 				readOnly={readOnly}
 		/>
@@ -102,7 +110,7 @@ const Input = (props) => {
 				Action button 
 			*/}
 			{show && (
-				<button className="actionButtons" style={style.actionButton} onClick={onActionBtnClick}>
+				<button className="actionButtons" style={style.actionButton} onClick={onActionBtnClick} onBlur={onBlur}>
 					<i className="material-icons">{icon}</i>
 				</button>
 			)}

@@ -92,40 +92,23 @@ export const getNextPage = (searchText, page) => async (dispatch) =>{
 };
 
 export const sortBy = (field, movies) => async(dispatch) => {
-	switch (field) {
-		case 'Year':
-			sortByYear(movies);
-			break;
-		case 'imdbRating':
-			sortByRating(movies);
-			break;
-		default:
-			console.warn(`Sorting on ${field} does't supported.`)
-	}
-
+	const payload = sort(field, movies);
+	console.log("payload:-", payload)
 	dispatch({
 		type: MOVIE_SORT,
-		payload: movies
+		payload: payload
 	});
 };
 
-
-const sortByYear = (movies)=>{
-	movies.map((item)=>{
-		const year = String(item["Year"]);
-		const index = year.search("–");
-		if (index > -1) {
-			const s = year.split("–");
+const sort = (filed, movies) => {
+	let result = movies.sort(function(a,b) {
+		if (!Number(a[filed]) || !Number(b[filed])) {
+			let tempA = a[filed].split('–');
+			let tempB = b[filed].split('–');
+			return Number(tempA[tempA.length-1]) - Number(tempB[tempB.length-1]);
 		}
-		return year
-	})
+		return Number(a[filed]) - Number(b[filed]);
+	});
+
+	return result;
 };
-
-const sort = () => {
-
-};
-
-const sortByRating = (movies)=>{
-
-};
-

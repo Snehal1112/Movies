@@ -58,7 +58,7 @@ class MoviesList extends PureComponent {
 					<DropDown size = {20} placeHolder={"Select sort By"} onSelect={this.onSelectionChange}>
 						<DropDownItem id={'default'} name={'Select sort By'}/>
 						<DropDownItem id={'Year'} name={'Year'}/>
-						<DropDownItem id={'imdbRating'} name={"IMDB rating"}/>
+						<DropDownItem id={'imdbID'} name={"IMDB rating"}/>
 					</DropDown>
 				)}
 

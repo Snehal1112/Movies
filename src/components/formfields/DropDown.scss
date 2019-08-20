@@ -1,6 +1,10 @@
 .dropDownContainer{
   position: relative;
 
+  .selectedItem {
+    background-color:#ffff00 !important;
+    color: black !important;
+  }
  .dropDownItemContainer{
    position: absolute;
    margin-top: 5px;
