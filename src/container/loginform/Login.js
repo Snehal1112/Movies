@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { NONE } from '../../components/formfields/ErrorTypes';
 import Input from '../../components/formfields/Input';
 import config from '../../config';
+import {ERROR} from "../utils/ErrorTypes";
 
 const style = {
 	container: {
@@ -13,11 +14,18 @@ const style = {
 };
 
 class Login extends PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value:'',
+			error: {type:NONE, message:''}
+		}
+	}
 	onClickButton = async (e) => {
 		e.preventDefault();
-		const apiKey = e.target['username'].value;
+		const apiKey = this.state.value;
 		if (apiKey === '') {
-			alert('user name should not be empty');
+			this.setState({error:{type:ERROR, message:'User name should not be empty'}});
 			return;
 		}
 
@@ -27,9 +35,7 @@ class Login extends PureComponent {
 			if (data.Response === 'False') {
 				sessionStorage.setItem('isLogin', false);
 				sessionStorage.setItem('apiKey', null);
-				alert('Error: Please check API key.');
-
-				console.error('Error: Please check API key.');
+				this.setState({error:{type:ERROR, message:'API key is invalid.'}});
 			} else {
 				// 49e882e5
 				sessionStorage.setItem('apiKey', apiKey);
@@ -40,25 +46,27 @@ class Login extends PureComponent {
 		} catch (e) {
 			sessionStorage.setItem('isLogin', false);
 			sessionStorage.setItem('apiKey', null);
-			alert('Error: Please check API key.');
-			console.error('Error: Please check API key.');
+			this.setState({error:{type:ERROR, message:'Either server not reachable or API key is invalid.'}});
 		}
 		const { history } = this.props;
 		history.push('/');
 	};
 
 	render() {
+		console.log(this.state)
 		return (
 			<div style={style.container}>
 				<form onSubmit={this.onClickButton}>
 					<Input
 						type="text"
 						name="username"
+						value={this.state.value}
 						actionBtn={{
 							icon: 'vpn_key',
 							show: true
 						}}
-						error={{ type: NONE, message: '' }}
+						onInputChange={(value)=>this.setState({...this.state, value})}
+						error={this.state.error}
 					/>
 				</form>
 			</div>

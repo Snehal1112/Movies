@@ -41,13 +41,13 @@ class MoviesList extends PureComponent {
 		}
 	};
 
-	onSelectionChange = (item) => {
-		const {id} = item;
-		if(id === 'default') {
+	onSelectionChange = (value) => {
+		// TODO: Drop down must return id and value.
+		if(value === 'Select sort By') {
 			return;
 		}
 		const {sortBy, movies} = this.props;
-		sortBy(id, movies);
+		sortBy(value, movies);
 	};
 
 	render() {
@@ -58,7 +58,6 @@ class MoviesList extends PureComponent {
 					<DropDown size = {20} placeHolder={"Select sort By"} onSelect={this.onSelectionChange}>
 						<DropDownItem id={'default'} name={'Select sort By'}/>
 						<DropDownItem id={'Year'} name={'Year'}/>
-						<DropDownItem id={'imdbID'} name={"IMDB rating"}/>
 					</DropDown>
 				)}
 
