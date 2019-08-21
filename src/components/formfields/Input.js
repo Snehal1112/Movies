@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ERROR, NONE, WARNING } from './ErrorTypes';
 import './Input.scss';
 const style = {
@@ -19,7 +19,7 @@ const style = {
 			color: 'red'
 		},
 		warning: {
-			color: 'green',
+			color: '#ffff00',
 			fontWeight: 'bold'
 		}
 	},
@@ -52,11 +52,16 @@ const Input = (props) => {
 		size = '35',
 		error = { type: NONE, message: '' },
 		placeHolder = 'User name',
-		actionBtn = {},
 		onFocus = ()=>{},
 		onBlur = ()=>{},
 		onClick = ()=>{},
+		onInputChange = ()=>{},
+		actionBtn = {},
 	} = props;
+
+	useEffect(() => {
+		onInputChange(text);
+	},[text]);
 
 	const { icon = '', show = false, handler = () => {} } = actionBtn;
 	const errStyle = (type) => {
@@ -64,18 +69,10 @@ const Input = (props) => {
 			case ERROR:
 				return style.actionMsg.error;
 			case WARNING:
-				return style.actionMsg.error;
+				return style.actionMsg.warning;
 			default:
 				return '';
 		}
-	};
-
-	const onActionBtnClick = () => {
-		handler(text);
-	};
-
-	const onInputFieldChange = (event) => {
-		setText(event.target.value);
 	};
 
 	return (
@@ -93,24 +90,24 @@ const Input = (props) => {
 				onClick={onClick}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				onChange={onInputFieldChange}
+				onChange={({target}) => setText(target.value)}
 				readOnly={readOnly}
 		/>
 
 			{/**
 				Error message filed 
 			*/}
-			{error.type !== NONE && (
+			{error.type !== NONE ? (
 				<div style={style.actionMsg}>
 					<span style={errStyle(error.type)}>{error.message}</span>
 				</div>
-			)}
+			):""}
 
 			{/**
 				Action button 
 			*/}
 			{show && (
-				<button className="actionButtons" style={style.actionButton} onClick={onActionBtnClick} onBlur={onBlur}>
+				<button className="actionButtons" style={style.actionButton} onClick={() => handler(text)}>
 					<i className="material-icons">{icon}</i>
 				</button>
 			)}

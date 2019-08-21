@@ -12,6 +12,26 @@
     color: #000000;
     opacity: 0.87;
   }
+
+  .footerToolbar {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    button{
+      padding: 10px 20px;
+      border-radius: 5px;
+      outline: 0px;
+      border: 2px solid #CFD8DC;
+      background-color: #37474f;
+      color: #ffffff;
+
+    }
+    :hover{
+      background-color: #cfd8dc;
+      color: #37474f;
+    }
+  }
+
 }
 
 .backBtn {

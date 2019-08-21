@@ -58,7 +58,7 @@ class Login extends PureComponent {
 							icon: 'vpn_key',
 							show: true
 						}}
-						error={{ type: NONE, message: 'sddds' }}
+						error={{ type: NONE, message: '' }}
 					/>
 				</form>
 			</div>

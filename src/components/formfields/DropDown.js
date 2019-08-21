@@ -15,79 +15,105 @@ const DropDown = (props) => {
 		placeHolder,
 		size = 100,
 		multiSelect = false,
-		maxSelect = 1,
-		minSelect = 0
+		maxSelect = 1
 	} = props;
 
 	const [arrow, setArrow] = useState('arrow_downward');
 	const [show, setShow] = useState(false);
 	const [text, setText] = useState('');
-	const [selectItem, setSelectItem] = useState([]);
+	const [selectedItems, setSelectedItem] = useState([]);
 	const refContainer = useRef(null);
 
-	const onClickHandler = () => {
-		setShow(!show);
-	};
-
 	useEffect(() => {
-		console.log(show)
 		setArrow(!show ? 'arrow_downward' : 'arrow_upward');
 		if (show) {
 			const dropDownListContainer = refContainer.current;
-			const selectedItems = dropDownListContainer.querySelectorAll('.selectedItem');
-			if (selectedItems.length === 0 && selectItem.length > 0) {
-				selectItem.map(id => {
+			const items = dropDownListContainer.querySelectorAll('.selectedItem');
+			if (items.length === 0 && selectedItems.length > 0) {
+				selectedItems.map(id => {
 					const item = dropDownListContainer.querySelector(`#${id}`);
 					item.classList.add('selectedItem');
 					return item;
 				})
 			}
-		} else {
-			if (selectItem.length > 0) {
-				onSelect(text);
-			}
+		} else if (selectedItems.length > 0) {
+			onSelect(text);
 		}
-	},[show]);
+	},[show, onSelect, selectedItems, text]);
 
-	const removeSelectedItem = (textContent) => {
-		const filterItem = selectItem.filter(item => item !== textContent);
-		setSelectItem(filterItem);
-	};
+	/**
+	 * Helper function which remove the already selected item from state
+	 *
+	 * @param {String} textContent The text which already selected by user.
+	 */
+	const removeSelectedItem = (textContent) => setSelectedItem(selectedItems.filter(item => item !== textContent));
 
-	const onClickDropDownItem = (event) => {
-		const target = event.target;
-		const textContent = target.textContent
-		const classList = target.classList;
+	/**
+	 * Event handler triggered when menu item selected.
+	 *
+	 * @param {Event.target} target The targeted element which triggered this event.
+	 */
+	const onSelectMenuItem = ({target}) => {
+		const {textContent, classList} = target;
 		if (multiSelect) {
-			handleMultiSelect(classList, textContent)
+			handleMultiSelect({classList, textContent})
 		} else {
+			handleSingleSelect({classList, textContent});
 			setShow(false);
-			setText(target.textContent);
-			onSelect(target);
 		}
 	};
 
-	const handleMultiSelect = (classList, textContent) => {
+	/**
+	 * Helper function which used to select the multiple
+	 * drop down menu items.
+	 *
+	 * @param {Element.classList} classList The classList contains the list classes.
+	 * @param {String} textContent The textContent contains text value of an element.
+	 */
+	const handleMultiSelect = ({classList, textContent}) => {
 		const toggleCls = classList.toggle('selectedItem');
-		const selectedItems = refContainer.current.querySelectorAll('.selectedItem');
+		const items = refContainer.current.querySelectorAll('.selectedItem');
 
 		// Update state.
-		if (selectedItems) {
+		if (items) {
+			// toggleCls is true if user select the menu item.
 			if (toggleCls) {
-				if (selectItem.length === maxSelect) {
+				// Show alert box if user reach to max selection limit.
+				if (multiSelect && selectedItems.length === maxSelect) {
 					classList.remove('selectedItem');
 					alert(`You can select max ${maxSelect} items.`);
 					return;
 				}
-				setSelectItem([...selectItem, textContent]);
+				setSelectedItem([...selectedItems, textContent]);
 			} else {
+				// user is deselecting the already selected items.
 				removeSelectedItem(textContent)
 			}
 		}
 
-		const itemText = []
-		selectedItems.forEach(item => itemText.push(item.textContent));
+		const itemText = [];
+		items.forEach(item => itemText.push(item.textContent));
 		setText(itemText.join(';'));
+	};
+
+	/**
+	 * Event handler called when drop down support to select only single item from the menu list.
+	 * @param {Element.classList} classList The classList contains the list classes.
+	 * @param {String} textContent The textContent contains text value of an element.
+	 */
+	const handleSingleSelect = ({classList, textContent}) => {
+		const item = refContainer.current.querySelector('.selectedItem');
+
+		if (item !== null && item.length > 0) {
+			item.classList.remove('selectedItem');
+		}
+		const toggleCls = classList.toggle('selectedItem');
+		if (toggleCls) {
+			setSelectedItem([textContent]);
+		} else {
+			removeSelectedItem(textContent)
+		}
+		setText(textContent);
 	};
 
 	return (
@@ -97,15 +123,17 @@ const DropDown = (props) => {
 			       value={text}
 			       readOnly={true}
 			       size={size}
-			       actionBtn={{icon: arrow, show: true, handler: onClickHandler}}
+			       actionBtn={{icon: arrow, show: true, handler: () => setShow(!show)}}
 			       placeHolder={placeHolder}
-			       onClick={onClickHandler}
+			       onClick={() => setShow(!show)}
 			/>
 			{show && (
-				<div ref={refContainer} className={"dropDownItemContainer"} onClick={onClickDropDownItem}>
-					{
-						children
-					}
+				<div
+					ref={refContainer}
+					className={"dropDownItemContainer"}
+					onClick={onSelectMenuItem}
+				>
+					{children}
 				</div>)}
 		</div>
 	);
